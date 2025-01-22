@@ -1,0 +1,2 @@
+Testnet BTC Faucet: https://coinfaucet.eu/en/btc-testnet/
+To get BTC on mainnet: https://near-intents.org/ 
