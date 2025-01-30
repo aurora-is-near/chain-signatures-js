@@ -1,8 +1,6 @@
-import * as ethers from 'ethers';
 import { fetchJson } from './utils.js';
 import * as bitcoinJs from 'bitcoinjs-lib';
 import { generateBtcAddress } from './kdf/btc.js';
-import { MPC_CONTRACT } from './kdf/mpc.js';
 import * as readline from "readline";
 
 function askQuestion(query) {
@@ -31,7 +29,7 @@ export class Bitcoin {
     const { address, publicKey } = await generateBtcAddress({
       accountId,
       path: derivation_path,
-      isTestnet: true,
+      isTestnet: this.networkId === 'testnet',
       addressType: 'segwit'
     });
     return { address, publicKey };
@@ -127,15 +125,20 @@ export class Bitcoin {
 
   broadcastTX = async (signedTransaction) => {
     // broadcast tx
-    const bitcoinRpc = `https://blockstream.info/${this.networkId === 'testnet' ? 'testnet' : ''}/api`;
+    const signedTx = signedTransaction.extractTransaction().toHex();
+    console.log("Signed TX: ");
+    console.log(signedTx);
+
+    const bitcoinRpc = `https://blockstream.info${this.networkId === 'testnet' ? '/testnet' : ''}/api`;
     const res = await fetch(`https://corsproxy.io/?url=${bitcoinRpc}/tx`, {
       method: 'POST',
-      body: signedTransaction.extractTransaction().toHex(),
+      body: signedTx,
     });
     if (res.status === 200) {
       const hash = await res.text();
       return hash
     } else {
+      console.log(JSON.stringify(res));
       throw Error(res);
     }
   }

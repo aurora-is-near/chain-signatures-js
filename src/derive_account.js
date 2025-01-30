@@ -1,8 +1,9 @@
 import {Bitcoin} from './chainsigs/bitcoin.js'
 
-const BTC = new Bitcoin('testnet');
-const account = '7e4f22f1ee20e01719ff1d986d116b04abb2ee3f.aurora';
-const path = 'bitcoin-1';
+const BTC = new Bitcoin('mainnet');
+const account = 'f7607cd922804daa9d54d21349dd6f9467098dde.aurora';
+let path = '0x70ebe9fbc4e9920b07a1f043b2bede8fc2e09504'; // this is our Safe
+//path = '0xDdE068fd58FD10ed15D0f68FC7cD214237A1E9af'.toLowerCase(); // this is my account
 
 function log_data(label, data){
     console.log('\n');

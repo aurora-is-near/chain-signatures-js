@@ -11,7 +11,7 @@ const { bech32 } = bech32pkg;
 
 import hash from 'hash.js';
 import bs58check from 'bs58check';
-import { MPC_KEY } from './mpc.js';
+import { getMPCKey } from './mpc.js';
 
 export const rootPublicKey = 'secp256k1:4NfTiv3UsGahebgTaHyD9vF8KYKMBnfd6kh94mK6xv8fGBiJB8TBtFMP5WWXz6B89Ac1fbpzPwAvoyQebemHFwx3';
 
@@ -101,7 +101,7 @@ export async function generateBtcAddress({
   addressType = 'segwit'
 }) {
   const childPublicKey = await deriveChildPublicKey(
-    najPublicKeyStrToCompressedPoint(MPC_KEY),  // Use the compressed key
+    najPublicKeyStrToCompressedPoint(getMPCKey(isTestnet)),  // Use the compressed key
     accountId,
     path
   );
