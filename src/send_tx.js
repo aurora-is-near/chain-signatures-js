@@ -40,10 +40,11 @@ let tx = null;
 const sats = 10000;
 const path = safe_account.path;
 const pkey = safe_account.publicKey;
+const toAddress = '14secnpokXzrjRa3fEwcJ1RQKusCp3kTUA';
 
 BTC.createTransaction({
     from: safe_account.address,
-    to: '14secnpokXzrjRa3fEwcJ1RQKusCp3kTUA',
+    to: toAddress,
     amount: sats
 }).then(data => {
         log_data("Your tx is:", JSON.stringify(data, null, 4));
@@ -58,6 +59,6 @@ BTC.createTransaction({
 }).then(signedTx => {
     return BTC.broadcastTX(signedTx)
 }).then(hash => {
-    let url = `https://blockstream.info/${BTC.networkId === 'testnet' ? 'testnet' : ''}/tx/'`;
+    let url = `https://blockstream.info/${BTC.networkId === 'testnet' ? 'testnet/' : '/'}tx/`;
     console.log('\n Now, you can find your transaction here: ' + url + hash);
 });
